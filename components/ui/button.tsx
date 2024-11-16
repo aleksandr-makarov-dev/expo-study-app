@@ -1,12 +1,12 @@
 import { Pressable, PressableProps, Text, View } from "react-native";
 import { cn } from "@/lib/utils";
 import React from "react";
-import FontAwesomeIcons from "@expo/vector-icons/FontAwesome6";
+import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-interface ButtonProps extends PressableProps {
+export interface ButtonProps extends PressableProps {
   title: string;
   iconEnd?: boolean;
-  icon?: React.ComponentProps<typeof FontAwesomeIcons>["name"];
+  icon?: React.ComponentProps<typeof Icon>["name"];
 }
 
 export const Button = React.forwardRef<View, ButtonProps>(
@@ -21,7 +21,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {icon && <FontAwesomeIcons size={20} name={icon} color="white" />}
+        {icon && <Icon size={24} name={icon} color="white" />}
         <Text className="text-white text-lg font-medium">{title}</Text>
       </Pressable>
     );

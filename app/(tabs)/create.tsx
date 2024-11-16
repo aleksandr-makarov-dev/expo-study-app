@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { parsePage } from "@/lib/parse";
 
-export default function CreateSetScreen() {
+export default function CreateScreen() {
   const [data, setData] = useState<SetCreateDto | null>(null);
 
   const handleBrowseClick = async () => {
@@ -67,7 +67,7 @@ export default function CreateSetScreen() {
               )}
             />
             <View className="pt-3">
-              <Button title="Save set" icon="save" />
+              <Button title="Save set" icon="content-save" />
             </View>
           </>
         ) : (

@@ -1,3 +1,4 @@
+import { FlashCard } from "@/components/flash-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -45,18 +46,8 @@ export default function FlashCardsScreen() {
           ref={pagerRef}
           onPageSelected={handlePageSelected}
         >
-          {MOCK_SET.items.map((item, i) => (
-            <Card key={item.id} className="flex-1">
-              <View className="items-end">
-                <Badge text={`${i + 1} / ${data?.items.length}`} />
-              </View>
-              <View className="flex-1 justify-center items-center">
-                <Text className="text-2xl dark:text-white">{item.text}</Text>
-              </View>
-              <View>
-                <Button icon="volume-low" title="Play" />
-              </View>
-            </Card>
+          {MOCK_SET.items.map((item) => (
+            <FlashCard key={item.id} className="flex-1" {...item} />
           ))}
         </PagerView>
         <View className="flex-row pt-3 gap-3">
