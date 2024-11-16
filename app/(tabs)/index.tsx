@@ -8,9 +8,6 @@ export default function LibraryScreen() {
       <Text className="dark:text-white">
         Edit app/index.tsx to edit this screen.
       </Text>
-      <Link href="/(tabs)/create" asChild>
-        <Button icon="import" title="Import" />
-      </Link>
       <Link
         href={{ pathname: "/sets/[id]/flashcards", params: { id: "set-1" } }}
         asChild

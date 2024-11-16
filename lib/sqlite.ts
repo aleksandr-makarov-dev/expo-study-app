@@ -1,7 +1,7 @@
 import * as SQLite from "expo-sqlite";
 import * as FileSystem from "expo-file-system";
 
-export const DATABASE_NAME: string = "studyapp.db";
+export const DATABASE_NAME: string = "studyapp";
 
 const CREATE_SET_TABLE_QUERY =
   "CREATE TABLE IF NOT EXISTS sets (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT)";

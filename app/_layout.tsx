@@ -7,16 +7,16 @@ import { Suspense } from "react";
 export default function RootLayout() {
   return (
     <Suspense>
-      {/* <SQLiteProvider
+      <SQLiteProvider
         databaseName={DATABASE_NAME}
         onInit={applyMigration}
         useSuspense
-      > */}
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      {/* </SQLiteProvider> */}
+      >
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </SQLiteProvider>
     </Suspense>
   );
 }

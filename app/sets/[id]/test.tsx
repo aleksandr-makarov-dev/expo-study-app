@@ -4,6 +4,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import { Set } from "@/lib/types";
 import PagerView from "react-native-pager-view";
+import { TestProvider } from "@/providers/test-context";
 
 export default function TestScreen() {
   const [data, setData] = useState<Set | null>(MOCK_SET);
@@ -12,7 +13,9 @@ export default function TestScreen() {
     <>
       <Stack.Screen options={{ headerTitle: data?.title }} />
       <View className="flex-1 dark:bg-zinc-800 p-3">
-        <PagerView></PagerView>
+        <TestProvider initialItems={MOCK_SET.items} currentIndex={0}>
+          <PagerView></PagerView>
+        </TestProvider>
       </View>
     </>
   );
