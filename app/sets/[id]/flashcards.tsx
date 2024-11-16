@@ -1,12 +1,10 @@
 import { FlashCard } from "@/components/flash-card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { MOCK_SET } from "@/lib/mock";
 import { Set } from "@/lib/types";
 import { Stack } from "expo-router";
 import { useRef, useState } from "react";
-import { NativeSyntheticEvent, Text, View } from "react-native";
+import { NativeSyntheticEvent, View } from "react-native";
 import PagerView from "react-native-pager-view";
 
 export default function FlashCardsScreen() {
@@ -36,18 +34,26 @@ export default function FlashCardsScreen() {
     pagerRef.current?.setPage(currentPage + 1);
   };
 
+  const total = data?.items.length ?? 0;
+
   return (
     <>
       <Stack.Screen options={{ headerTitle: data?.title }} />
-      <View className="flex-1 bg-zinc-800 p-3">
+      <View className="flex-1 dark:bg-zinc-800 p-3">
         <PagerView
           style={{ flex: 1 }}
           pageMargin={8}
           ref={pagerRef}
           onPageSelected={handlePageSelected}
         >
-          {MOCK_SET.items.map((item) => (
-            <FlashCard key={item.id} className="flex-1" {...item} />
+          {MOCK_SET.items.map((item, i) => (
+            <FlashCard
+              key={item.id}
+              className="flex-1"
+              {...item}
+              index={i + 1}
+              total={total}
+            />
           ))}
         </PagerView>
         <View className="flex-row pt-3 gap-3">

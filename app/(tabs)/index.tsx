@@ -9,21 +9,19 @@ export default function LibraryScreen() {
         Edit app/index.tsx to edit this screen.
       </Text>
       <Link href="/(tabs)/create" asChild>
-        <Button
-          icon="camera"
-          title="Import"
-          onPress={() => console.log("Pressed")}
-        />
+        <Button icon="import" title="Import" />
       </Link>
       <Link
         href={{ pathname: "/sets/[id]/flashcards", params: { id: "set-1" } }}
         asChild
       >
-        <Button
-          icon="camera"
-          title="Flashcards"
-          onPress={() => console.log("Pressed")}
-        />
+        <Button icon="view-dashboard" title="Flashcards" />
+      </Link>
+      <Link
+        href={{ pathname: "/sets/[id]/test", params: { id: "set-1" } }}
+        asChild
+      >
+        <Button icon="test-tube" title="Test" />
       </Link>
     </View>
   );

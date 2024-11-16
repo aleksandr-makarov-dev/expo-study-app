@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { View } from "react-native";
-import { useAudioPlayer } from "@/hooks/useAudioPlayer";
+import { useAudioPlayer } from "@/hooks/use-audio-player";
 
 interface AudioButtonProps {
   uri: string;
