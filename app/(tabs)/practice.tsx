@@ -1,18 +1,13 @@
-import { useSelectMany } from "@/hooks/use-select-many";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native";
-import { Set, SetGetDto } from "@/lib/types";
 import { Card } from "@/components/ui/card";
+import { useSelectMany } from "@/hooks/use-select-many";
 import { SELECT_SETS_QUERY } from "@/lib/queries";
-import { Link, Stack } from "expo-router";
+import { SetGetDto } from "@/lib/types";
+import { Stack, Link } from "expo-router";
+import React from "react";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function LibraryScreen() {
+export default function StudyScreen() {
   const { data, isLoading, refresh } =
     useSelectMany<SetGetDto>(SELECT_SETS_QUERY);
 
@@ -47,7 +42,7 @@ export default function LibraryScreen() {
               renderItem={({ item }) => (
                 <Link
                   href={{
-                    pathname: "/sets/[id]/flashcards",
+                    pathname: "/sets/[id]/test",
                     params: { id: item.id },
                   }}
                 >

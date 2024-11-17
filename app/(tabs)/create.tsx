@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { FlatList, Text, View } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
@@ -8,11 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { parsePage } from "@/lib/parse";
+import { useSQLiteContext } from "expo-sqlite";
+import { insertSet } from "@/lib/sqlite";
 
 export default function CreateScreen() {
+  const router = useRouter();
+  const db = useSQLiteContext();
+
   const [data, setData] = useState<SetCreateDto | null>(null);
 
-  const handleBrowseClick = async () => {
+  const handleBrowsePressed = async () => {
     const documentPickResult = await DocumentPicker.getDocumentAsync({
       multiple: false,
       type: "text/html",
@@ -31,14 +36,22 @@ export default function CreateScreen() {
 
     if (pageParseResult.success) {
       setData(pageParseResult.data);
-
-      console.log(pageParseResult.data);
     } else {
       console.error(pageParseResult.error);
     }
   };
 
-  const handleSaveSet = () => {};
+  const handleSavePressed = async () => {
+    if (!data) {
+      return;
+    }
+
+    await insertSet(db, data);
+
+    setData(null);
+
+    router.navigate({ pathname: "/(tabs)" });
+  };
 
   return (
     <>
@@ -48,7 +61,7 @@ export default function CreateScreen() {
           className="mb-6"
           title="Browse files"
           icon="folder-open"
-          onPress={handleBrowseClick}
+          onPress={handleBrowsePressed}
         />
         {data ? (
           <>
@@ -67,7 +80,11 @@ export default function CreateScreen() {
               )}
             />
             <View className="pt-3">
-              <Button title="Save set" icon="content-save" />
+              <Button
+                title="Save set"
+                icon="content-save"
+                onPress={handleSavePressed}
+              />
             </View>
           </>
         ) : (

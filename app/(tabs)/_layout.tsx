@@ -7,8 +7,6 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
-
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
@@ -21,7 +19,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Library",
+          title: "Study",
           tabBarIcon: ({ color }) => (
             <Icon size={24} name="folder" color={color} />
           ),
@@ -37,11 +35,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="practice"
         options={{
-          title: "Settings",
+          title: "Practice",
           tabBarIcon: ({ color }) => (
-            <Icon size={24} name="cog" color={color} />
+            <Icon size={24} name="book" color={color} />
           ),
         }}
       />

@@ -11,7 +11,7 @@ export default function TestScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ headerTitle: data?.title }} />
+      <Stack.Screen options={{ headerTitle: "Test" }} />
       <View className="flex-1 dark:bg-zinc-800 p-3">
         <TestProvider initialItems={MOCK_SET.items} currentIndex={0}>
           <PagerView></PagerView>

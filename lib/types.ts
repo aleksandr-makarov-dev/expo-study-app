@@ -21,6 +21,11 @@ export interface Set {
   items: Item[];
 }
 
+export interface SetGetDto {
+  id: string;
+  title: string;
+}
+
 export interface SetCreateDto {
   title: string;
   items: Item[];

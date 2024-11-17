@@ -4,7 +4,7 @@ import React from "react";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 export interface ButtonProps extends PressableProps {
-  title: string;
+  title?: string;
   iconEnd?: boolean;
   icon?: React.ComponentProps<typeof Icon>["name"];
 }
