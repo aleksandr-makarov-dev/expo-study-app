@@ -4,11 +4,19 @@ import { SELECT_SETS_QUERY } from "@/lib/queries";
 import { SetGetDto } from "@/lib/types";
 import { Stack, Link } from "expo-router";
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  useColorScheme,
+} from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { LoadingView } from "@/components/loading-view";
 
 export default function StudyScreen() {
+  const theme = useColorScheme();
+
   const { data, isLoading, refreshAsync } =
     useSelectMany<SetGetDto>(SELECT_SETS_QUERY);
 
@@ -22,10 +30,14 @@ export default function StudyScreen() {
         options={{
           headerRight: () => (
             <TouchableOpacity
-              className="mr-3 p-3 bg-zinc-50 rounded-md"
+              className="mr-3 p-3 bg-zinc-300 rounded-md dark:text-white dark:bg-zinc-800"
               onPress={handleRefreshPressed}
             >
-              <Icon name="refresh" size={24} />
+              <Icon
+                name="refresh"
+                size={24}
+                color={theme === "dark" ? "white" : "black"}
+              />
             </TouchableOpacity>
           ),
         }}

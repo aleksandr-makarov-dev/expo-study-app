@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
+  useColorScheme,
 } from "react-native";
 import { Set, SetGetDto } from "@/lib/types";
 import { Card } from "@/components/ui/card";
@@ -17,6 +18,8 @@ import { useSQLiteContext } from "expo-sqlite";
 import { deleteSetAsync } from "@/lib/sqlite";
 
 export default function LibraryScreen() {
+  const theme = useColorScheme();
+
   const { data, isLoading, refreshAsync } =
     useSelectMany<SetGetDto>(SELECT_SETS_QUERY);
 
@@ -48,10 +51,14 @@ export default function LibraryScreen() {
         options={{
           headerRight: () => (
             <TouchableOpacity
-              className="mr-3 p-3 bg-zinc-50 rounded-md"
+              className="mr-3 p-3 bg-zinc-300 rounded-md dark:text-white dark:bg-zinc-800"
               onPress={handleRefreshPressed}
             >
-              <Icon name="refresh" size={24} />
+              <Icon
+                name="refresh"
+                size={24}
+                color={theme === "dark" ? "white" : "black"}
+              />
             </TouchableOpacity>
           ),
         }}
