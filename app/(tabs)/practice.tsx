@@ -6,6 +6,7 @@ import { Stack, Link } from "expo-router";
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import { LoadingView } from "@/components/loading-view";
 
 export default function StudyScreen() {
   const { data, isLoading, refresh } =
@@ -31,9 +32,7 @@ export default function StudyScreen() {
       />
       <View className="flex-1 p-3 dark:bg-zinc-800">
         {isLoading ? (
-          <View className="flex-1 justify-center items-center">
-            <Text className="dark:text-white">Loading...</Text>
-          </View>
+          <LoadingView />
         ) : (
           <View>
             <FlatList

@@ -34,7 +34,10 @@ const FlashCardSide = ({
         </View>
       </Pressable>
       <View>
-        <AudioButton uri={`https://quizlet.com/${textTtsUrl}`} />
+        <AudioButton
+          className="bg-zinc-500 dark:bg-zinc-400"
+          uri={`https://quizlet.com/${textTtsUrl}`}
+        />
       </View>
     </View>
   );
