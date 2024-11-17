@@ -1,18 +1,29 @@
+import { Item } from "@/lib/types";
 import { TestProps } from "@/stores/test-store";
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 const TestContext = createContext<TestProps | null>(null);
+
+interface TestProviderProps {
+  initialItems: Item[];
+}
 
 export const TestProvider = ({
   initialItems,
   children,
-  currentIndex = 0,
-}: PropsWithChildren<TestProps>) => {
+}: PropsWithChildren<TestProviderProps>) => {
+  const [index, setIndex] = useState<number>(0);
+
+  const handleSubmit = () => {
+    setIndex((prev) => ++prev);
+  };
+
   return (
     <TestContext.Provider
       value={{
-        currentIndex,
+        currentIndex: index,
         initialItems,
+        submit: handleSubmit,
       }}
     >
       {children}
