@@ -13,3 +13,11 @@ export const SELECT_SETS_QUERY = "SELECT id, title from sets ORDER BY id DESC";
 
 export const SELECT_ITEMS_BY_SET_QUERY =
   "SELECT id, text, definition, image, textTtsUrl, definitionTtsUrl from items WHERE setId = $setId";
+
+export const DELETE_ITEMS_BY_SET_QUERY =
+  "DELETE FROM items WHERE setId = $setId";
+
+export const DELETE_SET_QUERY = "DELETE FROM sets WHERE id = $id";
+
+export const SELECT_SINGLE_SET_QUERY =
+  "SELECT id, title FROM sets WHERE id = $id";

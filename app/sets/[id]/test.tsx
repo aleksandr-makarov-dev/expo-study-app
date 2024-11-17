@@ -10,12 +10,19 @@ import { TestCard } from "@/components/test-card";
 import { useEffect, useRef } from "react";
 
 const TestPager = () => {
-  const { currentIndex, initialItems } = useTestContext();
   const pagerRef = useRef<PagerView>(null);
+
+  const init = useTestContext((selector) => selector.init);
+  const items = useTestContext((selector) => selector.items);
+  const currentIndex = useTestContext((selector) => selector.currentIndex);
 
   useEffect(() => {
     pagerRef.current?.setPage(currentIndex);
   }, [currentIndex]);
+
+  useEffect(() => {
+    init();
+  }, []);
 
   return (
     <PagerView
@@ -25,14 +32,14 @@ const TestPager = () => {
       initialPage={0}
       scrollEnabled={false}
     >
-      {initialItems.map((item) => (
+      {items.map((item, i) => (
         <TestCard
           className="flex-1"
           key={item.id}
-          text={item.definition}
-          textTtsUrl={item.definitionTtsUrl}
-          index={currentIndex + 1}
-          total={initialItems.length}
+          text={item.text}
+          textTtsUrl={item.textTtsUrl}
+          index={i + 1}
+          total={items.length}
         />
       ))}
     </PagerView>
@@ -41,10 +48,9 @@ const TestPager = () => {
 
 export default function TestScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data, isLoading, refresh } = useSelectMany<Item>(
-    SELECT_ITEMS_BY_SET_QUERY,
-    { $setId: id }
-  );
+  const { data, isLoading } = useSelectMany<Item>(SELECT_ITEMS_BY_SET_QUERY, {
+    $setId: id,
+  });
 
   return (
     <>

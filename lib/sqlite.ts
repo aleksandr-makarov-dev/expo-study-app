@@ -4,9 +4,12 @@ import { Set, SetCreateDto } from "./types";
 import {
   CREATE_ITEM_TABLE_QUERY,
   CREATE_SET_TABLE_QUERY,
+  DELETE_ITEMS_BY_SET_QUERY,
+  DELETE_SET_QUERY,
   INSERT_ITEM_QUERY,
   INSERT_SET_QUERY,
   SELECT_SETS_QUERY,
+  SELECT_SINGLE_SET_QUERY,
 } from "./queries";
 
 export const DATABASE_NAME: string = "studyapp";
@@ -72,4 +75,21 @@ export async function selectSets(db: SQLite.SQLiteDatabase) {
   } finally {
     await stmt.finalizeAsync();
   }
+}
+
+export async function deleteSetAsync(db: SQLite.SQLiteDatabase, id: number) {
+  await db.withTransactionAsync(async () => {
+    const stmt = await db.prepareAsync(DELETE_ITEMS_BY_SET_QUERY);
+    const stmt2 = await db.prepareAsync(DELETE_SET_QUERY);
+
+    try {
+      await stmt.executeAsync({ $setId: id });
+      await stmt2.executeAsync({ $id: id });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      await stmt.finalizeAsync();
+      await stmt2.finalizeAsync();
+    }
+  });
 }

@@ -6,5 +6,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function sanityzeText(text?: string): string {
-  return text?.replace(/\s*\([^)]*\)/g, "") || "";
+  return (
+    text
+      ?.replace(/\s*\([^)]*\)/g, "")
+      .trim()
+      .toLocaleLowerCase() || ""
+  );
 }

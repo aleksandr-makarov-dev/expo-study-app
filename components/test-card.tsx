@@ -1,10 +1,15 @@
-import { Text, View, ViewProps } from "react-native";
+import { Text, TextInput, View, ViewProps } from "react-native";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { AudioButton } from "./audio-button";
 import { useTestContext } from "@/providers/test-context";
 import { Badge } from "./ui/badge";
+import { useForm, Controller } from "react-hook-form";
+import { TestInput } from "@/stores/test-store";
+import { cn } from "@/lib/utils";
+import { useEffect, useRef } from "react";
+
 interface TestCardProps extends ViewProps {
   text: string;
   textTtsUrl?: string;
@@ -20,11 +25,21 @@ export const TestCard = ({
   className,
   ...props
 }: TestCardProps) => {
-  const { submit } = useTestContext();
+  const form = useForm<TestInput>({
+    defaultValues: {
+      answer: "",
+    },
+  });
 
-  const handleAnswerPressed = () => {
-    submit();
-  };
+  const submit = useTestContext((selector) => selector.submit);
+  const next = useTestContext((selector) => selector.next);
+  const state = useTestContext((selector) => selector.state);
+  const currentIndex = useTestContext((selector) => selector.currentIndex);
+  const items = useTestContext((selector) => selector.items);
+
+  const idle = state === "idle";
+  const success = state === "success";
+  const error = state === "error";
 
   return (
     <Card className={className} {...props}>
@@ -39,11 +54,38 @@ export const TestCard = ({
         />
       </View>
       <View className="gap-3">
-        <Input
-          className="placeholder:font-medium"
-          placeholder="Type the answer"
+        {success && (
+          <Text className="text-green-500 text-lg">
+            Your answer is correct!
+          </Text>
+        )}
+        {error && (
+          <Text className="text-red-500 text-lg">
+            Corrent answer: {items[currentIndex].answer}
+          </Text>
+        )}
+        <Controller
+          control={form.control}
+          name="answer"
+          rules={{ required: false }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              className={cn("placeholder:font-medium", { "opacity-50": !idle })}
+              placeholder="Type the answer"
+              value={value}
+              onChangeText={(value) => onChange(value)}
+              onBlur={onBlur}
+              editable={idle}
+              selectTextOnFocus={idle}
+              onSubmitEditing={form.handleSubmit(submit)}
+            />
+          )}
         />
-        <Button title="Answer" onPress={handleAnswerPressed} />
+        {idle ? (
+          <Button title="Answer" onPress={form.handleSubmit(submit)} />
+        ) : (
+          <Button title="Continue" onPress={next} />
+        )}
       </View>
     </Card>
   );

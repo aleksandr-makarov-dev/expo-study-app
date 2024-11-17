@@ -31,5 +31,5 @@ export const useSelectMany = <T,>(
     exec();
   }, []);
 
-  return { data, isLoading, refresh: exec };
+  return { data, isLoading, refreshAsync: exec };
 };

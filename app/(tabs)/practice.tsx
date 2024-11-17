@@ -9,11 +9,11 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { LoadingView } from "@/components/loading-view";
 
 export default function StudyScreen() {
-  const { data, isLoading, refresh } =
+  const { data, isLoading, refreshAsync } =
     useSelectMany<SetGetDto>(SELECT_SETS_QUERY);
 
   const handleRefreshPressed = async () => {
-    await refresh();
+    await refreshAsync();
   };
 
   return (

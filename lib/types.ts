@@ -22,7 +22,7 @@ export interface Set {
 }
 
 export interface SetGetDto {
-  id: string;
+  id: number;
   title: string;
 }
 
