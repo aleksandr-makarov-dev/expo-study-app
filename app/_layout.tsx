@@ -1,15 +1,24 @@
+import "react-native-gesture-handler";
 import { Stack } from "expo-router";
 import "@/index.css";
 import { SQLiteProvider } from "expo-sqlite";
 import { applyMigration, DATABASE_NAME } from "@/lib/sqlite";
 import { Suspense } from "react";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useColorScheme } from "react-native";
-import colors from "@/constants/colors";
+
+export const darkTheme = {
+  ...DefaultTheme,
+  dark: true,
+  colors: {
+    primary: "#2563eb",
+    background: "#2b2b2b",
+    card: "#18181b",
+    text: "#ffffff",
+    border: "#27272a",
+    notification: "#436195",
+  },
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -22,7 +31,7 @@ export default function RootLayout() {
         useSuspense
       >
         <ThemeProvider
-          value={colorScheme === "dark" ? colors.dark : colors.light}
+          value={colorScheme === "dark" ? darkTheme : DefaultTheme}
         >
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

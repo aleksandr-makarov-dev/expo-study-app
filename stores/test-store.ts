@@ -26,6 +26,7 @@ export interface TestItem {
   answer: string;
   type: TestItemType;
   textTtsUrl?: string;
+  answerTtsUrl?: string;
   given?: string;
 }
 
@@ -57,6 +58,7 @@ export const createTestStore = (initProps?: Partial<TestProps>) => {
           id: itm.id,
           text: itm.definition,
           textTtsUrl: itm.definitionTtsUrl,
+          answerTtsUrl: itm.textTtsUrl,
           answer: itm.text,
           type: "input",
         })),

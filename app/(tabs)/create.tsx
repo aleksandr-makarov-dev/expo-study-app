@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { parsePage } from "@/lib/parse";
 import { useSQLiteContext } from "expo-sqlite";
 import { insertSet } from "@/lib/sqlite";
+import "react-native-gesture-handler";
 
 export default function CreateScreen() {
   const router = useRouter();

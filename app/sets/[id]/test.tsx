@@ -1,23 +1,25 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
 import { Item } from "@/lib/types";
-import PagerView from "react-native-pager-view";
 import { TestProvider, useTestContext } from "@/providers/test-context";
 import { useSelectMany } from "@/hooks/use-select-many";
 import { SELECT_ITEMS_BY_SET_QUERY } from "@/lib/queries";
 import { LoadingView } from "@/components/loading-view";
 import { TestCard } from "@/components/test-card";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import "react-native-gesture-handler";
+import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 
 const TestPager = () => {
-  const pagerRef = useRef<PagerView>(null);
+  const [width] = useState(Dimensions.get("window").width);
+  const carouselRef = useRef<ICarouselInstance>(null);
 
   const init = useTestContext((selector) => selector.init);
   const items = useTestContext((selector) => selector.items);
   const currentIndex = useTestContext((selector) => selector.currentIndex);
 
   useEffect(() => {
-    pagerRef.current?.setPage(currentIndex);
+    carouselRef.current?.scrollTo({ index: currentIndex, animated: true });
   }, [currentIndex]);
 
   useEffect(() => {
@@ -25,24 +27,26 @@ const TestPager = () => {
   }, []);
 
   return (
-    <PagerView
-      ref={pagerRef}
-      style={{ flex: 1 }}
-      pageMargin={8}
-      initialPage={0}
-      scrollEnabled={false}
-    >
-      {items.map((item, i) => (
+    <Carousel
+      ref={carouselRef}
+      width={width}
+      loop={false}
+      defaultIndex={0}
+      scrollAnimationDuration={200}
+      data={items}
+      panGestureHandlerProps={{ activeOffsetX: [-1000, 1000] }}
+      renderItem={({ item, index }) => (
         <TestCard
-          className="flex-1"
+          className="flex-1 m-3"
           key={item.id}
           text={item.text}
           textTtsUrl={item.textTtsUrl}
-          index={i + 1}
+          answerTtsUrl={item.answerTtsUrl}
+          index={index}
           total={items.length}
         />
-      ))}
-    </PagerView>
+      )}
+    />
   );
 };
 
@@ -55,7 +59,7 @@ export default function TestScreen() {
   return (
     <>
       <Stack.Screen options={{ headerTitle: "Test" }} />
-      <View className="flex-1 dark:bg-zinc-800 p-3">
+      <View className="flex-1 dark:bg-zinc-800">
         {isLoading || !data ? (
           <LoadingView />
         ) : (

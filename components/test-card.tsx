@@ -9,10 +9,12 @@ import { useForm, Controller } from "react-hook-form";
 import { TestInput } from "@/stores/test-store";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
+import { useAudioPlayer } from "@/hooks/use-audio-player";
 
 interface TestCardProps extends ViewProps {
   text: string;
   textTtsUrl?: string;
+  answerTtsUrl?: string;
   index: number;
   total: number;
 }
@@ -21,10 +23,13 @@ export const TestCard = ({
   text,
   textTtsUrl,
   index,
+  answerTtsUrl,
   total,
   className,
   ...props
 }: TestCardProps) => {
+  const { playAsync } = useAudioPlayer(`https://quizlet.com/${answerTtsUrl}`);
+
   const form = useForm<TestInput>({
     defaultValues: {
       answer: "",
@@ -37,14 +42,24 @@ export const TestCard = ({
   const currentIndex = useTestContext((selector) => selector.currentIndex);
   const items = useTestContext((selector) => selector.items);
 
+  useEffect(() => {
+    if (state !== "idle" && index === currentIndex) {
+      playAsync();
+    }
+  }, [state]);
+
   const idle = state === "idle";
   const success = state === "success";
   const error = state === "error";
 
+  if (index !== currentIndex) {
+    return null;
+  }
+
   return (
     <Card className={className} {...props}>
       <View className="justify-end content-end items-end">
-        <Badge className="self-end" text={`${index} / ${total}`} />
+        <Badge className="self-end" text={`${index + 1} / ${total}`} />
       </View>
       <View className="flex-1 justify-center items-center gap-6">
         <Text className="text-xl dark:text-white">{text}</Text>

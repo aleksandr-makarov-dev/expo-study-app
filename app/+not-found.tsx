@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { View, Text } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import "react-native-gesture-handler";
 
 export default function NotFoundScreen() {
   return (

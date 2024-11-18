@@ -3,7 +3,6 @@ import {
   View,
   Text,
   FlatList,
-  TouchableHighlight,
   TouchableOpacity,
   Alert,
   useColorScheme,
@@ -16,6 +15,7 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { LoadingView } from "@/components/loading-view";
 import { useSQLiteContext } from "expo-sqlite";
 import { deleteSetAsync } from "@/lib/sqlite";
+import "react-native-gesture-handler";
 
 export default function LibraryScreen() {
   const theme = useColorScheme();

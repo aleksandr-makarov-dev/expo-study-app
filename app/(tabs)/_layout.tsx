@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import "react-native-gesture-handler";
 
 export default function TabLayout() {
   return (

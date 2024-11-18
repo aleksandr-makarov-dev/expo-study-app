@@ -4,6 +4,7 @@ import { AudioButton } from "./audio-button";
 import { FlipCard } from "./flip-card";
 import { useState } from "react";
 import { Badge } from "./ui/badge";
+import { cn } from "@/lib/utils";
 
 interface FlashCardSideProps {
   text: string;
@@ -71,7 +72,7 @@ export const FlashCard = ({
   };
 
   return (
-    <Card className={className} {...props}>
+    <Card className={cn("m-3", className)} {...props}>
       <FlipCard
         className="flex-1"
         isFlipped={isFlipped}

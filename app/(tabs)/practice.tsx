@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { LoadingView } from "@/components/loading-view";
+import "react-native-gesture-handler";
 
 export default function StudyScreen() {
   const theme = useColorScheme();
