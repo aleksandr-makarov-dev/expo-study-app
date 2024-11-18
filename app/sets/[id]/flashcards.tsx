@@ -1,42 +1,32 @@
 import { FlashCard } from "@/components/flash-card";
 import { Button } from "@/components/ui/button";
+import { LazyLoadView } from "@/components/ui/lazy-view";
 import { useSelectMany } from "@/hooks/use-select-many";
 import { SELECT_ITEMS_BY_SET_QUERY } from "@/lib/queries";
 import { Item } from "@/lib/types";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, Dimensions } from "react-native";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 
 export default function FlashCardsScreen() {
-  const [width] = useState(Dimensions.get("window").width);
   const local = useLocalSearchParams<{ id: string }>();
   const { data, isLoading } = useSelectMany<Item>(SELECT_ITEMS_BY_SET_QUERY, {
     $setId: local.id,
   });
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [canGoNext, setCanGoNext] = useState<boolean>(true);
-  const [canGoPrevious, setCanGoPrevious] = useState<boolean>(false);
-
   const carouselRef = useRef<ICarouselInstance | null>(null);
 
-  const handlePageSelected = (index: number) => {
-    setCurrentPage(index);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [width] = useState(Dimensions.get("window").width);
 
-    setCanGoNext(index < (data?.length ?? 0) - 1);
-    setCanGoPrevious(index > 0);
-  };
+  const canGoPrevious = currentIndex > 0;
+  const canGoNext = currentIndex < (data?.length ?? 0) - 1;
 
-  const handlePrevPressed = () => {
-    carouselRef.current?.prev();
-  };
+  const handlePageSelected = (index: number) => setCurrentIndex(index);
 
-  const handleNextPressed = () => {
-    carouselRef.current?.next();
-  };
-
-  const total = data?.length ?? 0;
+  const handlePrevPressed = () => carouselRef.current?.prev();
+  const handleNextPressed = () => carouselRef.current?.next();
 
   return (
     <>
@@ -56,21 +46,24 @@ export default function FlashCardsScreen() {
               scrollAnimationDuration={200}
               data={data ?? []}
               onSnapToItem={handlePageSelected}
-              panGestureHandlerProps={{ activeOffsetX: [-1000, 1000] }} // manual swiping makes cards jump back
+              panGestureHandlerProps={{ activeOffsetX: [-1000, 1000] }}
               renderItem={({ item, index }) => (
-                <FlashCard
-                  key={item.id}
-                  className="flex-1"
-                  index={index + 1}
-                  total={total}
-                  text={item.text}
-                  definition={item.definition}
-                  textTtsUrl={item.textTtsUrl}
-                  definitionTtsUrl={item.definitionTtsUrl}
-                  image={item.image}
-                />
+                <LazyLoadView currentIndex={currentIndex} index={index}>
+                  <FlashCard
+                    key={item.id}
+                    className="flex-1"
+                    index={index}
+                    total={data?.length ?? 0}
+                    text={item.text}
+                    definition={item.definition}
+                    textTtsUrl={item.textTtsUrl}
+                    definitionTtsUrl={item.definitionTtsUrl}
+                    image={item.image}
+                  />
+                </LazyLoadView>
               )}
             />
+
             <View className="flex-row p-3 gap-3">
               <Button
                 className="flex-1"

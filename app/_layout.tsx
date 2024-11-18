@@ -6,6 +6,15 @@ import { applyMigration, DATABASE_NAME } from "@/lib/sqlite";
 import { Suspense } from "react";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useColorScheme } from "react-native";
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false, // Reanimated runs in strict mode by default
+});
 
 export const darkTheme = {
   ...DefaultTheme,

@@ -27,6 +27,6 @@ export const TestProvider = ({ children, ...props }: TestProviderProps) => {
 
 export function useTestContext<T>(selector: (state: TestState) => T): T {
   const store = useContext(TestContext);
-  if (!store) throw new Error("Missing BearContext.Provider in the tree");
+  if (!store) throw new Error("Missing TestContext.Provider in the tree");
   return useStore(store, selector);
 }

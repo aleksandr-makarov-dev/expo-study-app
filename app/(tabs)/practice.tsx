@@ -10,13 +10,16 @@ import {
   FlatList,
   TouchableOpacity,
   useColorScheme,
+  Switch,
 } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { LoadingView } from "@/components/loading-view";
 import "react-native-gesture-handler";
+import { usePersistentStorage } from "@/hooks/use-persistent-storage";
 
 export default function StudyScreen() {
   const theme = useColorScheme();
+  const { storeAsync, value: mode } = usePersistentStorage<boolean>("mode");
 
   const { data, isLoading, refreshAsync } =
     useSelectMany<SetGetDto>(SELECT_SETS_QUERY);
@@ -30,16 +33,23 @@ export default function StudyScreen() {
       <Stack.Screen
         options={{
           headerRight: () => (
-            <TouchableOpacity
-              className="mr-3 p-3 bg-zinc-300 rounded-md dark:text-white dark:bg-zinc-800"
-              onPress={handleRefreshPressed}
-            >
-              <Icon
-                name="refresh"
-                size={24}
-                color={theme === "dark" ? "white" : "black"}
+            <View className="flex-row gap-3 items-center">
+              <Text className="dark:text-white">Select / Input</Text>
+              <Switch
+                value={mode || false}
+                onChange={async (e) => await storeAsync(e.nativeEvent.value)}
               />
-            </TouchableOpacity>
+              <TouchableOpacity
+                className="mr-3 p-3 bg-zinc-300 rounded-md dark:text-white dark:bg-zinc-800"
+                onPress={handleRefreshPressed}
+              >
+                <Icon
+                  name="refresh"
+                  size={24}
+                  color={theme === "dark" ? "white" : "black"}
+                />
+              </TouchableOpacity>
+            </View>
           ),
         }}
       />

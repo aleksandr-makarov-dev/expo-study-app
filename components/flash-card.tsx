@@ -78,7 +78,7 @@ export const FlashCard = ({
         isFlipped={isFlipped}
         frontSide={
           <FlashCardSide
-            index={index}
+            index={index + 1}
             total={total}
             text={text}
             textTtsUrl={textTtsUrl}
@@ -87,7 +87,7 @@ export const FlashCard = ({
         }
         backSide={
           <FlashCardSide
-            index={index}
+            index={index + 1}
             total={total}
             text={definition}
             textTtsUrl={definitionTtsUrl}
